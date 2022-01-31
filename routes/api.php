@@ -26,6 +26,8 @@ Route::get('client-memberships/{client_membership}/edit', 'ClientMembershipContr
 Route::put('client-memberships/{client_membership}/update', 'ClientMembershipController@update');
 Route::delete('client-memberships/{client_membership}/destroy', 'ClientMembershipController@destroy');
 
+//Asistencias
+Route::get('assitances/get-active-memberships', 'AssistanceController@getActiveMemberships');
 
 //Tipos de membresías
 Route::get('membership-types/{membership_type}/edit', 'MembershipTypeController@edit');
