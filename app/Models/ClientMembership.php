@@ -26,4 +26,8 @@ class ClientMembership extends Model
     public function turn () {
         return $this->belongsTo('App\Models\Turn');
     }
+
+    public function clientMembershipAssistances () {
+        return $this->hasMany('App\Models\ClientMembershipAssistance');
+    }
 }
