@@ -18,6 +18,7 @@ class InventoryProductController extends Controller
     {
         return InventoryProduct::with('category')->orderBy('name', 'asc')->paginate(8);
     }
+
     /**
      * Display a listing of the resource.
      *

@@ -50,3 +50,7 @@ Route::apiResource('inventory-products', 'InventoryProductController');
 //Inventario - proveedores
 Route::get('inventory-providers/{inventoryProvider}/edit', 'InventoryProviderController@edit');
 Route::apiResource('inventory-providers', 'InventoryProviderController');
+
+//Inventario - compras
+Route::get('inventory-purchases/get-data-to-create-purchase', 'InventoryPurchaseController@getDataToCreatePurchase');
+Route::apiResource('inventory-purchases', 'InventoryPurchaseController');

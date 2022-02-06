@@ -27,10 +27,10 @@ class InventoryProviderController extends Controller
     {
         $data = $request->validate([
             'code' => 'required|max:30|unique:inventory_providers,code',
-            'names' => 'required|max:90',
+            'name' => 'required|max:90|unique:inventory_providers,name',
         ], [], [
             'code' => 'Código',
-            'names' => 'Nombres',
+            'name' => 'Nombre',
         ]);
 
         InventoryProvider::create($data);
@@ -58,10 +58,10 @@ class InventoryProviderController extends Controller
     {
         $data = $request->validate([
             'code' => 'required|max:30|unique:inventory_providers,code,' . $inventoryProvider->id,
-            'names' => 'required|max:90',
+            'name' => 'required|max:90|unique:inventory_providers,name,' . $inventoryProvider->id,
         ], [], [
             'code' => 'Código',
-            'names' => 'Nombres',
+            'name' => 'Nombre',
         ]);
 
         $inventoryProvider->update($data);
