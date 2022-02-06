@@ -16,4 +16,8 @@ class InventoryPurchaseDetail extends Model
         'price_unit',
         'price_total',
     ];
+
+    public function product () {
+        return $this->belongsTo('App\Models\InventoryProduct', 'inventory_product_id');
+    }
 }

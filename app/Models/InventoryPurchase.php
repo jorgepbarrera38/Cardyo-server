@@ -23,6 +23,6 @@ class InventoryPurchase extends Model
     }
 
     public function provider () {
-        return $this->hasMany('App\Models\InventoryProvider', 'inventory_provider_id');
+        return $this->belongsTo('App\Models\InventoryProvider', 'inventory_provider_id');
     }
 }

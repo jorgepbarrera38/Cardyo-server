@@ -6,6 +6,7 @@ use App\Models\InventoryPurchase;
 use App\Models\InventoryProvider;
 use App\Models\InventoryProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InventoryPurchaseController extends Controller
 {
@@ -49,7 +50,7 @@ class InventoryPurchaseController extends Controller
 
         $data = $request->validate([
             'inventory_provider_id' => 'required|exists:inventory_providers,id',
-            'bill' => 'required|max:30',
+            'bill' => 'required|max:30|unique:inventory_purchases,bill',
             'date_bill' => 'required|date',
             'observations' => 'required|max:500',
 
@@ -65,10 +66,32 @@ class InventoryPurchaseController extends Controller
             'observations' => 'Observaciónes',
         ]);
 
-        $inventoryPurchase = InventoryPurchase::create($data);
-        $inventoryPurchase->purchaseDetails()->createMany($data['details']);
+        $total = 0;
 
-        return 'Bien';
+        foreach ($data['details'] as $index => $detail) {
+            $total +=  $detail['quantity'] * $detail['price_unit'];
+            $data['details'][$index]['price_total'] = $detail['quantity'] * $detail['price_unit'];
+        }
+
+        $data['total'] = $total;
+
+        try {
+            DB::beginTransaction();
+
+            $inventoryPurchase = InventoryPurchase::create($data);
+            $inventoryPurchase->purchaseDetails()->createMany($data['details']);
+
+            foreach ($data['details'] as $detail) {
+                $productDB = InventoryProduct::findOrFail($detail['inventory_product_id']);
+                $productDB->update(['stock' => $productDB->stock + $detail['quantity']]);
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['errors' => ['message' => ['La compra no se pudo registrar debido a un error en el servidor']]], 422);
+        }
+
 
     }
 
@@ -78,31 +101,8 @@ class InventoryPurchaseController extends Controller
      * @param  \App\Models\InventoryPurchase  $inventoryPurchase
      * @return \Illuminate\Http\Response
      */
-    public function show(InventoryPurchase $inventoryPurchase)
+    public function show($inventoryPurchase)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\InventoryPurchase  $inventoryPurchase
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, InventoryPurchase $inventoryPurchase)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\InventoryPurchase  $inventoryPurchase
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(InventoryPurchase $inventoryPurchase)
-    {
-        //
+        return InventoryPurchase::with(['provider', 'purchaseDetails.product'])->where('id', $inventoryPurchase)->firstOrFail();
     }
 }

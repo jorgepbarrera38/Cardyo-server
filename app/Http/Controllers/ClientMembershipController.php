@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\ClientMembership;
 use App\Models\Turn;
 use App\Models\MembershipType;
+use App\Models\ClientMembershipAssistance;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -139,6 +140,11 @@ class ClientMembershipController extends Controller
             $data['date_finish'] = \Carbon\Carbon::createFromDate($data['date_start'])->addDays($membershipType->quantity * $data['quantity'])->subDays(1);
         }
 
+        $clientMembershipAssistances = ClientMembershipAssistance::where('date', '<', $data['date_start'])->orWhere('date', '>', $data['date_finish'])->exists();
+        
+        if ($clientMembershipAssistances) {
+            return response()->json(['errors' => ['message' => ['La membresía ya tiene asistencias marcadas que se encuentran por fuera del rango de fechas']]], 422);
+        }
 
         $client_membership->update($data);
     }
