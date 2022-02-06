@@ -50,7 +50,7 @@ class ClientController extends Controller
 
         if ($request->hasFile('photo')) {
             $data['photo'] = Storage::putFile('clients/profile', $request->file('photo'));
-             
+
         }
 
         Client::create($data);
@@ -132,6 +132,9 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
+        if (Storage::exists($client->photo))  {
+            Storage::delete($client->photo);
+        }
         $client->delete();
     }
 }

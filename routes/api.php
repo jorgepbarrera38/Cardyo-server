@@ -37,3 +37,16 @@ Route::apiResource('membership-types', 'MembershipTypeController');
 //Turnos
 Route::get('turns/{turn}/edit', 'TurnController@edit');
 Route::apiResource('turns', 'TurnController');
+
+//Inventario - categorías
+Route::get('inventory-categories/{inventoryCategory}/edit', 'InventoryCategoryController@edit');
+Route::apiResource('inventory-categories', 'InventoryCategoryController');
+
+//Inventario - productos
+Route::get('inventory-products/get-data-to-create-product', 'InventoryProductController@getDataToCreateProduct');
+Route::get('inventory-products/{inventoryProduct}/edit', 'InventoryProductController@edit');
+Route::apiResource('inventory-products', 'InventoryProductController');
+
+//Inventario - proveedores
+Route::get('inventory-providers/{inventoryProvider}/edit', 'InventoryProviderController@edit');
+Route::apiResource('inventory-providers', 'InventoryProviderController');

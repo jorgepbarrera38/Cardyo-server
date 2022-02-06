@@ -15,7 +15,7 @@ class CreateMembershipTypesTable extends Migration
     {
         Schema::create('membership_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->enum('type', ['Meses', 'Días']);
             $table->integer('quantity');
             $table->double('price');
