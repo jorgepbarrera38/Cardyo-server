@@ -20,4 +20,8 @@ class InventoryPurchaseDetail extends Model
     public function product () {
         return $this->belongsTo('App\Models\InventoryProduct', 'inventory_product_id');
     }
+
+    public function purchaseReturnDetails () {
+        return $this->hasMany('App\Models\InventoryPurchaseReturnDetail', 'inv_purchase_detail_id');
+    }
 }

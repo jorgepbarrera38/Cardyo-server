@@ -55,3 +55,8 @@ Route::apiResource('inventory-providers', 'InventoryProviderController');
 Route::get('inventory-purchases/get-data-to-create-purchase', 'InventoryPurchaseController@getDataToCreatePurchase');
 Route::get('inventory-purchases/{inventoryPurchase}', 'InventoryPurchaseController@show');
 Route::apiResource('inventory-purchases', 'InventoryPurchaseController');
+
+//Inventario - devolución de compras
+Route::get('inventory-purchase-returns/get-data-to-create-purchase-return', 'InventoryPurchaseReturnController@getDataToCreatePurchase');
+Route::get('inventory-purchase-returns/{inventoryPurchaseReturn}', 'InventoryPurchaseReturnController@show');
+Route::apiResource('inventory-purchase-returns', 'InventoryPurchaseReturnController');
