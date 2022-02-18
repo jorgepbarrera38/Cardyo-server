@@ -17,7 +17,7 @@ class InventoryPurchaseController extends Controller
      */
     public function index()
     {
-        return InventoryPurchase::with('provider')->orderBy('created_at', 'desc')->paginate(8);
+        return InventoryPurchase::with('provider')->orderBy('id', 'desc')->paginate(8);
     }
 
     /**
@@ -103,6 +103,6 @@ class InventoryPurchaseController extends Controller
      */
     public function show($inventoryPurchase)
     {
-        return InventoryPurchase::with(['provider', 'purchaseDetails.product'])->where('id', $inventoryPurchase)->firstOrFail();
+        return InventoryPurchase::with(['provider', 'purchaseDetails.product', 'purchaseDetails.purchaseReturnDetails.inventoryPurchaseReturn'])->where('id', $inventoryPurchase)->firstOrFail();
     }
 }

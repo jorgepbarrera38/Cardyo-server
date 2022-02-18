@@ -18,7 +18,7 @@ class InventoryPurchaseReturnController extends Controller
      */
     public function index()
     {
-        return InventoryPurchaseReturn::with('purchase')->orderBy('created_at', 'desc')->paginate(8);
+        return InventoryPurchaseReturn::with('purchase')->orderBy('id', 'desc')->paginate(8);
     }
 
     /**
@@ -102,9 +102,9 @@ class InventoryPurchaseReturnController extends Controller
      * @param  \App\Models\InventoryPurchaseReturn  $inventoryPurchaseReturn
      * @return \Illuminate\Http\Response
      */
-    public function show(InventoryPurchaseReturn $inventoryPurchaseReturn)
+    public function show($inventoryPurchaseReturn)
     {
-        //
+        return InventoryPurchaseReturn::with(['purchase.provider', 'purchaseReturnDetails.inventoryPurchaseDetail.product'])->where('id', $inventoryPurchaseReturn)->firstOrFail();
     }
 
     /**
