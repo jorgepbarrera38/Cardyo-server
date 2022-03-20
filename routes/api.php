@@ -20,6 +20,7 @@ Route::apiResource('clients', 'ClientController');
 
 //Membresías del cliente
 Route::get('client-memberships/get-data-to-create-membership', 'ClientMembershipController@getDataToCreateMembership');
+Route::get('client-memberships/{client_membership}/get-asistances-from-membership', 'ClientMembershipController@getAsistancesFromMembership');
 //Route::get('client-memberships/{client}', 'ClientMembershipController@index');
 Route::post('client-memberships/{client}', 'ClientMembershipController@store');
 Route::get('client-memberships/{client_membership}/edit', 'ClientMembershipController@edit');

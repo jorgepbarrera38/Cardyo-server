@@ -165,7 +165,23 @@ class ClientMembershipController extends Controller
        if ($membershipIsFinished) {
            return response()->json(['errors' => ['message' => ['La membresía no puede eliminar ya que se encuentra finalizada']]], 422);
        }      
+
+       //Verificando si se encuentra activa y tiene asistencias
+       $membershipIsActiveWithAssistances = ClientMembership::has('clientMembershipAssistances')
+                                                            ->where('date_start', '<=', Carbon::now()->toDateString())
+                                                            ->where('date_finish', '>=', Carbon::now()->toDateString())
+                                                            ->where('id', $client_membership->id)
+                                                            ->first();
+        
+        if ($membershipIsActiveWithAssistances) {
+            return response()->json(['errors' => ['message' => ['La membresía no se puede eliminar ya que se encuentra activa y tiene asistencias marcadas']]], 422);
+        }
        
        $client_membership->delete();
+    }
+
+    public function getAsistancesFromMembership(ClientMembership $client_membership)
+    {
+        return $client_membership->clientMembershipAssistances;
     }
 }
