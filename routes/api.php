@@ -28,9 +28,9 @@ Route::delete('client-memberships/{client_membership}/destroy', 'ClientMembershi
 
 //Medidas corporales del cliente
 Route::post('client-body-measurements/{client}', 'ClientBodyMeasurementController@store');
-Route::get('client-body-measurements/{client_membership}/edit', 'ClientBodyMeasurementController@edit');
-Route::put('client-body-measurements/{client_membership}/update', 'ClientBodyMeasurementController@update');
-Route::delete('client-body-measurements/{client_membership}/destroy', 'ClientBodyMeasurementController@destroy');
+Route::get('client-body-measurements/{client_body_measurement}/edit', 'ClientBodyMeasurementController@edit');
+Route::put('client-body-measurements/{client_body_measurement}/update', 'ClientBodyMeasurementController@update');
+Route::delete('client-body-measurements/{client_body_measurement}/destroy', 'ClientBodyMeasurementController@destroy');
 
 //Asistencias
 Route::get('assitances/get-active-memberships', 'AssistanceController@getActiveMemberships');

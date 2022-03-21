@@ -63,9 +63,9 @@ class ClientBodyMeasurementController extends Controller
      * @param  \App\Models\ClientBodyMeasurement  $clientBodyMeasurement
      * @return \Illuminate\Http\Response
      */
-    public function show(ClientBodyMeasurement $clientBodyMeasurement)
+    public function edit(ClientBodyMeasurement $client_body_measurement)
     {
-        //
+        return $client_body_measurement;
     }
 
     /**
@@ -75,9 +75,37 @@ class ClientBodyMeasurementController extends Controller
      * @param  \App\Models\ClientBodyMeasurement  $clientBodyMeasurement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ClientBodyMeasurement $clientBodyMeasurement)
+    public function update(Request $request, ClientBodyMeasurement $client_body_measurement)
     {
-        //
+        $data = $request->validate([
+            'date' => 'required|date',
+            'height' => 'required|numeric|min:1|max:300',
+            'weight' => 'required|numeric|min:1|max:300',
+            'biceps' => 'required|numeric|min:1|max:300',
+            'forearms' => 'required|numeric|min:1|max:300',
+            'shoulders' => 'required|numeric|min:1|max:300',
+            'chest' => 'required|numeric|min:1|max:300',
+            'waist_width' => 'required|numeric|min:1|max:300',
+            'width_at_navel_level' => 'required|numeric|min:1|max:300',
+            'buttocks_or_hip' => 'required|numeric|min:1|max:300',
+            'thigh' => 'required|numeric|min:1|max:300',
+            'calves' => 'required|numeric|min:1|max:300',
+        ], [], [
+            'date' => 'Fecha',
+            'height' => 'Altura',
+            'weight' => 'Peso',
+            'biceps' => 'Bíceps',
+            'forearms' => 'Antebrazos',
+            'shoulders' => 'Hombros',
+            'chest' => 'Pecho',
+            'waist_width' => 'Anchura cintura',
+            'width_at_navel_level' => 'Anchura a nivel del ombligo',
+            'buttocks_or_hip' => 'Glúteos o cadera',
+            'thigh' => 'Muslo',
+            'calves' => 'Pantorrillas',
+        ]);
+
+        $client_body_measurement->update($data);
     }
 
     /**
@@ -86,8 +114,8 @@ class ClientBodyMeasurementController extends Controller
      * @param  \App\Models\ClientBodyMeasurement  $clientBodyMeasurement
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ClientBodyMeasurement $clientBodyMeasurement)
+    public function destroy(ClientBodyMeasurement $client_body_measurement)
     {
-        //
+        $client_body_measurement->delete();
     }
 }

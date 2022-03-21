@@ -69,6 +69,9 @@ class ClientController extends Controller
                      ->with(['memberships' => function ($query) {
                         $query->orderBy('date_start', 'desc')->get();
                       }])
+                     ->with(['bodyMeasurements' => function ($query) {
+                        $query->orderBy('date', 'desc')->get();
+                      }])
                      ->where('id', $client)->firstOrFail();
     }
 
