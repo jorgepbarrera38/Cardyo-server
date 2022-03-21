@@ -21,11 +21,16 @@ Route::apiResource('clients', 'ClientController');
 //Membresías del cliente
 Route::get('client-memberships/get-data-to-create-membership', 'ClientMembershipController@getDataToCreateMembership');
 Route::get('client-memberships/{client_membership}/get-asistances-from-membership', 'ClientMembershipController@getAsistancesFromMembership');
-//Route::get('client-memberships/{client}', 'ClientMembershipController@index');
 Route::post('client-memberships/{client}', 'ClientMembershipController@store');
 Route::get('client-memberships/{client_membership}/edit', 'ClientMembershipController@edit');
 Route::put('client-memberships/{client_membership}/update', 'ClientMembershipController@update');
 Route::delete('client-memberships/{client_membership}/destroy', 'ClientMembershipController@destroy');
+
+//Medidas corporales del cliente
+Route::post('client-body-measurements/{client}', 'ClientBodyMeasurementController@store');
+Route::get('client-body-measurements/{client_membership}/edit', 'ClientBodyMeasurementController@edit');
+Route::put('client-body-measurements/{client_membership}/update', 'ClientBodyMeasurementController@update');
+Route::delete('client-body-measurements/{client_membership}/destroy', 'ClientBodyMeasurementController@destroy');
 
 //Asistencias
 Route::get('assitances/get-active-memberships', 'AssistanceController@getActiveMemberships');

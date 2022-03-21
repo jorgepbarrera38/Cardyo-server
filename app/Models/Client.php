@@ -25,4 +25,8 @@ class Client extends Model
     public function memberships () {
         return $this->hasMany('App\Models\ClientMembership');
     }
+
+    public function bodyMeasurements () {
+        return $this->hasMany('App\Models\ClientBodyMeasurement');
+    }
 }
