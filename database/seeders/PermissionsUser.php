@@ -13,7 +13,7 @@ class PermissionsUser extends Seeder
      * @return void
      */
     public function run()
-    {
+    {/*
         //Tipos de membresías
         Permission::create([
             'name' => 'membership_types.index',
@@ -240,8 +240,12 @@ class PermissionsUser extends Seeder
         Permission::create([
             'name' => 'users.delete',
             'description' => 'Eliminar usuarios del sistema'
+        ]);*/
+
+        //Empresa
+        Permission::create([
+            'name' => 'company.index',
+            'description' => 'Actualizar datos de empresa'
         ]);
-        
-        
     }
 }

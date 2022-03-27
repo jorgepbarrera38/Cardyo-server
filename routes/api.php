@@ -99,4 +99,8 @@ Route::middleware('auth')->group(function () {
     Route::get('users/{user}/get-permissions-from-user-and-all-permissions', 'UserController@getPermissionsFromUserAndAllPermissions');
     Route::put('users/{user}/update-permissions', 'UserController@updatePermissions');
     Route::apiResource('users', 'UserController');
+
+    //Empresa
+    Route::get('company', 'CompanyController@show');
+    Route::post('company', 'CompanyController@store');
 });

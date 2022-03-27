@@ -136,7 +136,12 @@ class ClientMembershipController extends Controller
             $data['date_finish'] = \Carbon\Carbon::createFromDate($data['date_start'])->addDays($membershipType->quantity * $data['quantity'])->subDays(1);
         }
 
-        $clientMembershipAssistances = ClientMembershipAssistance::where('date', '<', $data['date_start'])->orWhere('date', '>', $data['date_finish'])->exists();
+        $clientMembershipAssistances = ClientMembershipAssistance::where('client_membership_id', $client_membership->id)
+                                                                ->where(function ($query) use($data) {
+                                                                    $query->where('date', '<', $data['date_start'])
+                                                                          ->orWhere('date', '>', $data['date_finish']);
+                                                                 })
+                                                                 ->exists();
         
         if ($clientMembershipAssistances) {
             return response()->json(['errors' => ['message' => ['La membresía ya tiene asistencias marcadas que se encuentran por fuera del rango de fechas']]], 422);
@@ -178,6 +183,6 @@ class ClientMembershipController extends Controller
 
     public function getAsistancesFromMembership(ClientMembership $client_membership)
     {
-        return $client_membership->clientMembershipAssistances;
+        return $client_membership->clientMembershipAssistances()->orderBy('date', 'asc')->get();
     }
 }
