@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class AssistanceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:assistances.mark_attendance')->only(['getActiveMemberships', 'markAttendance']);
+    }
+
     public function getActiveMemberships (Request $request) {
 
         $clientExists = Client::where('identification', $request->identification)->exists();
@@ -26,19 +31,11 @@ class AssistanceController extends Controller
                                 ->where('date_finish', '>=', $now);
                     })->where('identification', $request->identification)->exists();
 
-        if (!$clientHasActiveMemberships) {
+        /*if (!$clientHasActiveMemberships) {
             return response()->json(['errors' => ['message' => ['El cliente no tiene membresías activas']]], 422);
-        }
-/*
-        return Client::with('memberships.membershipType')
-                        ->with('memberships.turn')
-                        ->with(['memberships' => function ($query) use ($now) {
-                        $query->where('date_start', '<=', $now)
-                              ->where('date_finish', '>=', $now);
-                        }])->where('identification', $request->identification)
-                       ->first(['id', 'identification', 'full_names', 'photo']);
-                       */
-        return Client::with('memberships.membershipType')
+        }*/
+
+        $clientWithInfoMemberships = Client::with('memberships.membershipType')
                         ->with('memberships.turn')
                         ->with('memberships.clientMembershipAssistances')
                         ->with(['memberships' => function ($query) use ($now) {
@@ -46,6 +43,11 @@ class AssistanceController extends Controller
                               ->where('date_finish', '>=', $now);
                         }])->where('identification', $request->identification)
                        ->first(['id', 'identification', 'full_names', 'photo']);
+        
+        return [
+            'clientWithInfoMemberships' => $clientWithInfoMemberships,
+            'clientHasActiveMemberships' => $clientHasActiveMemberships
+        ];
 
     }
 

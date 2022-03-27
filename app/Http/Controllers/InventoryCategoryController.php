@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class InventoryCategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:inventory_categories.index')->only('index');
+        $this->middleware('hasPermission:inventory_categories.store')->only('store');
+        $this->middleware('hasPermission:inventory_categories.update')->only(['edit', 'update']);
+        $this->middleware('hasPermission:inventory_categories.delete')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      *

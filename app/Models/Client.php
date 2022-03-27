@@ -29,4 +29,8 @@ class Client extends Model
     public function bodyMeasurements () {
         return $this->hasMany('App\Models\ClientBodyMeasurement');
     }
+
+    public function sales () {
+        return $this->hasMany('App\Models\Sale');
+    }
 }

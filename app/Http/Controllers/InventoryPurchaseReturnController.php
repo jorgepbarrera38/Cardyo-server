@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class InventoryPurchaseReturnController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:inventory_purchase_returns.index')->only('index');
+        $this->middleware('hasPermission:inventory_purchase_returns.store')->only(['store', 'getDataToCreatePurchase']);
+        $this->middleware('hasPermission:inventory_purchase_returns.show')->only('show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -105,28 +112,5 @@ class InventoryPurchaseReturnController extends Controller
     public function show($inventoryPurchaseReturn)
     {
         return InventoryPurchaseReturn::with(['purchase.provider', 'purchaseReturnDetails.inventoryPurchaseDetail.product'])->where('id', $inventoryPurchaseReturn)->firstOrFail();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\InventoryPurchaseReturn  $inventoryPurchaseReturn
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, InventoryPurchaseReturn $inventoryPurchaseReturn)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\InventoryPurchaseReturn  $inventoryPurchaseReturn
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(InventoryPurchaseReturn $inventoryPurchaseReturn)
-    {
-        //
     }
 }

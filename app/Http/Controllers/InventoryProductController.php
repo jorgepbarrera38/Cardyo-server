@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Storage;
 
 class InventoryProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:inventory_products.index')->only('index');
+        $this->middleware('hasPermission:inventory_products.store')->only('store');
+        $this->middleware('hasPermission:inventory_products.update')->only(['edit', 'update']);
+        $this->middleware('hasPermission:inventory_products.delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -65,17 +73,6 @@ class InventoryProductController extends Controller
         }
 
         InventoryProduct::create($data);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\InventoryProduct  $inventoryProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function show(InventoryProduct $inventoryProduct)
-    {
-        //
     }
 
     /**

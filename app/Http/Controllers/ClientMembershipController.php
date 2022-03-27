@@ -12,6 +12,13 @@ use Carbon\Carbon;
 
 class ClientMembershipController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:client_memberships.store')->only('store');
+        $this->middleware('hasPermission:client_memberships.update')->only(['edit', 'update']);
+        $this->middleware('hasPermission:client_memberships.delete')->only('destroy');
+        $this->middleware('hasPermission:clients.show')->only('getAsistancesFromMembership');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -74,17 +81,6 @@ class ClientMembershipController extends Controller
 
 
         $client->memberships()->create($data);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ClientMembership  $clientMembership
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ClientMembership $clientMembership)
-    {
-        //
     }
 
     /**

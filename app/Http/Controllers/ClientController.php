@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:clients.index')->only('index');
+        $this->middleware('hasPermission:clients.show')->only('show');
+        $this->middleware('hasPermission:clients.store')->only('store');
+        $this->middleware('hasPermission:clients.update')->only(['edit', 'update']);
+        $this->middleware('hasPermission:clients.delete')->only('destroy');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -72,6 +81,11 @@ class ClientController extends Controller
                      ->with(['bodyMeasurements' => function ($query) {
                         $query->orderBy('date', 'desc')->get();
                       }])
+                      ->with('sales.saleDetails:id,sale_id,product_name,quantity,price_unit,price_total')
+                      ->with('sales:id,client_id,created_at')
+                      ->with(['sales' => function ($query) {
+                            $query->orderBy('created_at', 'desc')->get();
+                        }])
                      ->where('id', $client)->firstOrFail();
     }
 

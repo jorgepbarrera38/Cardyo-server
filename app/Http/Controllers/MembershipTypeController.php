@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class MembershipTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:membership_types.index')->only('index');
+        $this->middleware('hasPermission:membership_types.store')->only('store');
+        $this->middleware('hasPermission:membership_types.update')->only(['edit', 'update']);
+        $this->middleware('hasPermission:membership_types.delete')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -38,17 +45,6 @@ class MembershipTypeController extends Controller
         ]);
 
         MembershipType::create($data);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\MembershipType  $membership_type
-     * @return \Illuminate\Http\Response
-     */
-    public function show(MembershipType $membership_type)
-    {
-        //
     }
 
     /**

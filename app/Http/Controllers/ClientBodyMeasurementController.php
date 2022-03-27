@@ -8,14 +8,11 @@ use Illuminate\Http\Request;
 
 class ClientBodyMeasurementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('hasPermission:client_body_measurements.store')->only('store');
+        $this->middleware('hasPermission:client_body_measurements.update')->only(['edit', 'update']);
+        $this->middleware('hasPermission:client_body_measurements.delete')->only('destroy');
     }
 
     /**

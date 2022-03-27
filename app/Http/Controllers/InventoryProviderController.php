@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class InventoryProviderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:inventory_providers.index')->only('index');
+        $this->middleware('hasPermission:inventory_providers.store')->only('store');
+        $this->middleware('hasPermission:inventory_providers.update')->only(['edit', 'update']);
+        $this->middleware('hasPermission:inventory_providers.delete')->only('destroy');
+    }
+    
     /**
      * Display a listing of the resource.
      *

@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class TurnController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:turns.index')->only('index');
+        $this->middleware('hasPermission:turns.store')->only('store');
+        $this->middleware('hasPermission:turns.update')->only(['edit', 'update']);
+        $this->middleware('hasPermission:turns.delete')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -36,17 +43,6 @@ class TurnController extends Controller
         ]);
 
         Turn::create($data);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Turn  $turn
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Turn $turn)
-    {
-        //
     }
 
     /**

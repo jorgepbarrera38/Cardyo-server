@@ -18,12 +18,11 @@ class CreateSaleDetailsTable extends Migration
             $table->unsignedBigInteger('sale_id');
             $table->foreign('sale_id')->references('id')->on('sales');
             $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('inventory_products');
             $table->string('product_name');
             $table->double('price_unit');
             $table->integer('quantity');
             $table->double('price_total');
-
             $table->timestamps();
         });
     }

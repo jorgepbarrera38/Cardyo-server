@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class InventoryPurchaseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:inventory_purchases.index')->only('index');
+        $this->middleware('hasPermission:inventory_purchases.store')->only(['store', 'getDataToCreatePurchase']);
+        $this->middleware('hasPermission:inventory_purchases.show')->only('show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -91,8 +98,6 @@ class InventoryPurchaseController extends Controller
             DB::rollBack();
             return response()->json(['errors' => ['message' => ['La compra no se pudo registrar debido a un error en el servidor']]], 422);
         }
-
-
     }
 
     /**
@@ -103,6 +108,7 @@ class InventoryPurchaseController extends Controller
      */
     public function show($inventoryPurchase)
     {
-        return InventoryPurchase::with(['provider', 'purchaseDetails.product', 'purchaseDetails.purchaseReturnDetails.inventoryPurchaseReturn'])->where('id', $inventoryPurchase)->firstOrFail();
+        return InventoryPurchase::with(['provider', 'purchaseDetails.product', 'purchaseDetails.purchaseReturnDetails.inventoryPurchaseReturn'])
+                                ->where('id', $inventoryPurchase)->firstOrFail();
     }
 }
