@@ -28,10 +28,13 @@ Route::group([
 
 Route::middleware('auth')->group(function () {
 
+    //Dashboard
+    Route::get('dashboard/get-data', 'DashboardController@getData');
+
     //Tipos de membresías
     Route::get('membership-types/{membership_type}/edit', 'MembershipTypeController@edit');
     Route::apiResource('membership-types', 'MembershipTypeController');
-    
+
     //Clientes
     Route::get('clients/{client}/edit', 'ClientController@edit');
     Route::apiResource('clients', 'ClientController');
