@@ -12,6 +12,7 @@ class Sale extends Model
     protected $fillable = [
         'client_id',
         'total',
+        'status',
     ];
 
     public function saleDetails () {

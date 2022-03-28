@@ -132,8 +132,7 @@ class SaleController extends Controller
                 $productDB->save();
             }
 
-            $sale->saleDetails()->delete();
-            $sale->delete();
+            $sale->update(['status' => 'Anulado']);
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
