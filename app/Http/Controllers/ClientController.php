@@ -16,7 +16,7 @@ class ClientController extends Controller
         $this->middleware('hasPermission:clients.update')->only(['edit', 'update']);
         $this->middleware('hasPermission:clients.delete')->only('destroy');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -79,7 +79,7 @@ class ClientController extends Controller
                         $query->orderBy('date_start', 'desc')->get();
                       }])
                      ->with(['bodyMeasurements' => function ($query) {
-                        $query->orderBy('date', 'desc')->get();
+                        $query->orderBy('date', 'asc')->get();
                       }])
                       ->with('sales.saleDetails:id,sale_id,product_name,quantity,price_unit,price_total')
                       ->with('sales:id,client_id,created_at')
