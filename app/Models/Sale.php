@@ -22,4 +22,10 @@ class Sale extends Model
     public function client () {
         return $this->belongsTo('App\Models\Client');
     }
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('id', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

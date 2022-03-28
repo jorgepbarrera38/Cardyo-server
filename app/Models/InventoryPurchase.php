@@ -25,4 +25,10 @@ class InventoryPurchase extends Model
     public function provider () {
         return $this->belongsTo('App\Models\InventoryProvider', 'inventory_provider_id');
     }
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('id', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

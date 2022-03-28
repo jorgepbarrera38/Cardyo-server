@@ -21,4 +21,10 @@ class InventoryPurchaseReturn extends Model
     public function purchase () {
         return $this->belongsTo('App\Models\InventoryPurchase', 'inventory_purchase_id');
     }
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('id', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

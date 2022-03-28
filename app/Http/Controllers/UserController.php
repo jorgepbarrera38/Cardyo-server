@@ -23,7 +23,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::orderBy('names', 'asc')->paginate(8);
+        $search = request('search');
+        return User::search($search)->orderBy('names', 'asc')->paginate(8);
     }
 
     /**

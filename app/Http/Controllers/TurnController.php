@@ -21,7 +21,8 @@ class TurnController extends Controller
      */
     public function index()
     {
-        return Turn::orderBy('name', 'asc')->paginate(8);
+        $search = request('search');
+        return Turn::search($search)->orderBy('name', 'asc')->paginate(8);
     }
 
     /**

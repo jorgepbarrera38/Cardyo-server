@@ -68,4 +68,11 @@ class User extends Authenticatable implements JWTSubject
     public function permissions () {
         return $this->belongsToMany(Permission::class);
     }
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('names', 'LIKE', '%' . $search . '%')
+                    ->orWhere('username', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

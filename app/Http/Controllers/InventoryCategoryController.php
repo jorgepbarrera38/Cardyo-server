@@ -21,7 +21,8 @@ class InventoryCategoryController extends Controller
      */
     public function index()
     {
-        return InventoryCategory::orderBy('name', 'asc')->paginate(8);
+        $search = request('search');
+        return InventoryCategory::search($search)->orderBy('name', 'asc')->paginate(8);
     }
 
     /**

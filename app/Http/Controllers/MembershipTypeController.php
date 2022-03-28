@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MembershipType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MembershipTypeController extends Controller
 {
@@ -21,7 +22,8 @@ class MembershipTypeController extends Controller
      */
     public function index()
     {
-        return MembershipType::orderBy('name', 'asc')->paginate(8);
+        $search = request('search');
+        return MembershipType::search($search)->orderBy('name', 'asc')->paginate(8);
     }
 
     /**

@@ -19,4 +19,10 @@ class MembershipType extends Model
     public function memberships () {
         return $this->hasMany('App\Models\ClientMembership');
     }
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

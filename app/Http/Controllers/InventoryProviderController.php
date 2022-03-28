@@ -22,7 +22,8 @@ class InventoryProviderController extends Controller
      */
     public function index()
     {
-        return InventoryProvider::orderBy('name', 'asc')->paginate(8);
+        $search = request('search');
+        return InventoryProvider::search($search)->orderBy('name', 'asc')->paginate(8);
     }
 
     /**

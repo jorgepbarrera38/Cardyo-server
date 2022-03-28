@@ -12,4 +12,10 @@ class InventoryCategory extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

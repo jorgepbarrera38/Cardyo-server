@@ -13,4 +13,11 @@ class InventoryProvider extends Model
         'code',
         'name',
     ];
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('code', 'LIKE', '%' . $search . '%')
+                   ->orWhere('name', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

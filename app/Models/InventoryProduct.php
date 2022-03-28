@@ -24,4 +24,10 @@ class InventoryProduct extends Model
     {
         return $this->belongsTo('App\Models\InventoryCategory', 'inventory_category_id');
     }
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

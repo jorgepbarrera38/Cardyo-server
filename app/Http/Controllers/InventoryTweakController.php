@@ -24,7 +24,8 @@ class InventoryTweakController extends Controller
      */
     public function index()
     {
-        return InventoryTweak::orderBy('id', 'desc')->paginate(8);
+        $search = request('search');
+        return InventoryTweak::search($search)->orderBy('id', 'desc')->paginate(8);
     }
 
     /**

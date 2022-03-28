@@ -14,4 +14,10 @@ class Turn extends Model
         'time_start',
         'time_finish',
     ];
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

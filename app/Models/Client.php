@@ -33,4 +33,11 @@ class Client extends Model
     public function sales () {
         return $this->hasMany('App\Models\Sale');
     }
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('identification', 'LIKE', '%' . $search . '%')
+                    ->orWhere('full_names', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

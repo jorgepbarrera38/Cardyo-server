@@ -17,4 +17,10 @@ class InventoryTweak extends Model
     public function tweakDetails () {
         return $this->hasMany('App\Models\InventoryTweakDetail');
     }
+
+    public function scopeSearch ($query, $search) {
+        if ($search) {
+            $query->where('id', 'LIKE', '%' . $search . '%');
+        }
+    }
 }

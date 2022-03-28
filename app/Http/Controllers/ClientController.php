@@ -24,7 +24,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return Client::orderBy('full_names', 'asc')->paginate(8);
+        $search = request('search');
+        return Client::search($search)->orderBy('full_names', 'asc')->paginate(8);
     }
 
     /**

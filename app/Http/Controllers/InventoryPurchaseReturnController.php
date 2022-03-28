@@ -25,7 +25,8 @@ class InventoryPurchaseReturnController extends Controller
      */
     public function index()
     {
-        return InventoryPurchaseReturn::with('purchase')->orderBy('id', 'desc')->paginate(8);
+        $search = request('search');
+        return InventoryPurchaseReturn::search($search)->with('purchase')->orderBy('id', 'desc')->paginate(8);
     }
 
     /**

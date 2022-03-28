@@ -24,7 +24,8 @@ class SaleController extends Controller
      */
     public function index()
     {
-        return Sale::orderBy('created_at', 'desc')->paginate(8);
+        $search = request('search');
+        return Sale::search($search)->orderBy('created_at', 'desc')->paginate(8);
     }
 
     /**

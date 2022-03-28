@@ -24,7 +24,8 @@ class InventoryProductController extends Controller
      */
     public function index()
     {
-        return InventoryProduct::with('category')->orderBy('name', 'asc')->paginate(8);
+        $search = request('search');
+        return InventoryProduct::search($search)->with('category')->orderBy('name', 'asc')->paginate(8);
     }
 
     /**
