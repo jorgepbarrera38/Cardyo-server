@@ -27,6 +27,10 @@ class ClientMembership extends Model
         return $this->belongsTo('App\Models\Turn');
     }
 
+    public function client () {
+        return $this->belongsTo('App\Models\Client');
+    }
+
     public function clientMembershipAssistances () {
         return $this->hasMany('App\Models\ClientMembershipAssistance');
     }

@@ -11,6 +11,15 @@ class ClientMembershipAssistance extends Model
 
     protected $fillable = [
         'client_membership_id',
+        'turn_id',
         'date',
     ];
+
+    public function clientMembership () {
+        return $this->belongsTo('App\Models\ClientMembership');
+    }
+
+    public function turn () {
+        return $this->belongsTo('App\Models\Turn');
+    }
 }

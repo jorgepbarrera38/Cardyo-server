@@ -103,4 +103,8 @@ Route::middleware('auth')->group(function () {
     //Empresa
     Route::get('company', 'CompanyController@show');
     Route::post('company', 'CompanyController@store');
+
+    //Reportes - Asistencias
+    Route::get('reports/get-assistances', 'Reports\AssistanceController@getAssistances');
+    Route::get('reports/get-sales', 'Reports\SaleController@getSales');
 });

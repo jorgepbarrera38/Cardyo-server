@@ -80,6 +80,10 @@ class AssistanceController extends Controller
             return response()->json(['errors' => ['memsbership_id' => ['Ya marcó asistencia para el día de hoy']]], 422);
         }
 
+        $clientMembership = ClientMembership::where('id', $data['client_membership_id'])->firstOrFail();
+
+        $data['turn_id'] = $clientMembership->turn_id;
+
         ClientMembershipAssistance::create($data);
     }
 }
