@@ -114,7 +114,7 @@ class SaleController extends Controller
      */
     public function show($sale)
     {
-        return Sale::where('id', $sale)->with(['client', 'saleDetails'])->firstOrFail();
+        return Sale::where('id', $sale)->with(['client', 'saleDetails.product'])->firstOrFail();
     }
 
     /**

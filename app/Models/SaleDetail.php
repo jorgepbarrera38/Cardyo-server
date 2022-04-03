@@ -17,4 +17,8 @@ class SaleDetail extends Model
         'quantity',
         'price_total',
     ];
+
+    public function product () {
+        return $this->belongsTo('App\Models\InventoryProduct');
+    }
 }
