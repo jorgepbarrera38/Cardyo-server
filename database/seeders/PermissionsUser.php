@@ -171,11 +171,15 @@ class PermissionsUser extends Seeder
         ]);
         Permission::create([
             'name' => 'inventory_purchases.show',
-            'description' => 'Ver información de compras de inventario'
+            'description' => 'Ver detalle de compras de inventario'
+        ]);
+        Permission::create([
+            'name' => 'inventory_purchases.delete',
+            'description' => 'Anular compras de inventario'
         ]);
 
-        //Inventarios - Devolución de compras
-        Permission::create([
+        //Inventarios - Devolución de compras - se deshabilitó
+        /*Permission::create([
             'name' => 'inventory_purchase_returns.index',
             'description' => 'Listar devoluciones de compras de inventario'
         ]);
@@ -186,7 +190,7 @@ class PermissionsUser extends Seeder
         Permission::create([
             'name' => 'inventory_purchase_returns.show',
             'description' => 'Ver información de devoluciones de compras de inventario'
-        ]);
+        ]);*/
 
         //Inventarios - Ajustes de inventarios
         Permission::create([
@@ -199,7 +203,7 @@ class PermissionsUser extends Seeder
         ]);
         Permission::create([
             'name' => 'inventory_tweaks.show',
-            'description' => 'Ver información de ajustes de inventario'
+            'description' => 'Ver detalle de ajustes de inventario'
         ]);
 
         //Ventas
@@ -213,7 +217,7 @@ class PermissionsUser extends Seeder
         ]);
         Permission::create([
             'name' => 'sales.show',
-            'description' => 'Ver información de ventas'
+            'description' => 'Ver detalle de ventas'
         ]);
         Permission::create([
             'name' => 'sales.delete',

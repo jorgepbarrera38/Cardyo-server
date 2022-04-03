@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('config', function () {
+
+    return [
+        'APP_URL' => env('APP_URL'),
+    ];
+});
+
 Route::group([
 
     'middleware' => 'api',
@@ -78,11 +85,12 @@ Route::middleware('auth')->group(function () {
     Route::get('inventory-purchases/get-data-to-create-purchase', 'InventoryPurchaseController@getDataToCreatePurchase');
     Route::get('inventory-purchases/{inventoryPurchase}', 'InventoryPurchaseController@show');
     Route::apiResource('inventory-purchases', 'InventoryPurchaseController');
+    Route::delete('inventory-purchases/{inventoryPurchase}', 'InventoryPurchaseController@destroy');
 
     //Inventario - devolución de compras
-    Route::get('inventory-purchase-returns/get-data-to-create-purchase-return', 'InventoryPurchaseReturnController@getDataToCreatePurchase');
+    /*Route::get('inventory-purchase-returns/get-data-to-create-purchase-return', 'InventoryPurchaseReturnController@getDataToCreatePurchase');
     Route::get('inventory-purchase-returns/{inventoryPurchaseReturn}', 'InventoryPurchaseReturnController@show');
-    Route::apiResource('inventory-purchase-returns', 'InventoryPurchaseReturnController');
+    Route::apiResource('inventory-purchase-returns', 'InventoryPurchaseReturnController');*/
 
     //Inventario - ajustes de inventario
     Route::get('inventory-tweaks/get-data-to-create-inventory-tweak', 'InventoryTweakController@getDataToCreateInventoryTweak');

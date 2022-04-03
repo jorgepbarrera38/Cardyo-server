@@ -15,6 +15,7 @@ class InventoryPurchase extends Model
         'bill',
         'attachment',
         'observations',
+        'status',
         'total',
     ];
 
@@ -28,7 +29,8 @@ class InventoryPurchase extends Model
 
     public function scopeSearch ($query, $search) {
         if ($search) {
-            $query->where('id', 'LIKE', '%' . $search . '%');
+            $query->where('id', 'LIKE', '%' . $search . '%')
+                    ->orWhere('bill', 'LIKE', '%' . $search . '%');
         }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 
 class ClientController extends Controller
 {
@@ -85,7 +86,7 @@ class ClientController extends Controller
                       ->with('sales.saleDetails:id,sale_id,product_name,quantity,price_unit,price_total')
                       ->with('sales:id,client_id,created_at')
                       ->with(['sales' => function ($query) {
-                            $query->orderBy('created_at', 'desc')->get();
+                            $query->where('status', 'confirmado')->orderBy('created_at', 'desc')->get();
                         }])
                      ->where('id', $client)->firstOrFail();
     }

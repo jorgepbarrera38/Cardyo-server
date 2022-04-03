@@ -93,9 +93,9 @@ class InventoryTweakController extends Controller
             }
 
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['errors' => ['message' => ['La compra no se pudo registrar debido a un error en el servidor']]], 422);
+            return response()->json(['errors' => ['message' => ['La compra no se pudo registrar debido a un error en el servidor: ' . $e->getMessage()]]], 422);
         }
     }
 

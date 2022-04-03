@@ -17,11 +17,12 @@ class CreateInventoryPurchasesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('inventory_provider_id');
             $table->foreign('inventory_provider_id')->references('id')->on('inventory_providers');
-            $table->string('bill')->unique();
+            $table->string('bill');
             $table->date('date_bill');
             $table->string('attachment')->nullable();
             $table->text('observations');
             $table->double('total');
+            $table->enum('status', ['Confirmado', 'Anulado'])->default('Confirmado');
             $table->timestamps();
         });
     }

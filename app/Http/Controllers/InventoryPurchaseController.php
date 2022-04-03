@@ -15,6 +15,7 @@ class InventoryPurchaseController extends Controller
         $this->middleware('hasPermission:inventory_purchases.index')->only('index');
         $this->middleware('hasPermission:inventory_purchases.store')->only(['store', 'getDataToCreatePurchase']);
         $this->middleware('hasPermission:inventory_purchases.show')->only('show');
+        $this->middleware('hasPermission:inventory_purchases.delete')->only('destroy');
     }
 
     /**
@@ -58,8 +59,8 @@ class InventoryPurchaseController extends Controller
 
         $data = $request->validate([
             'inventory_provider_id' => 'required|exists:inventory_providers,id',
-            'bill' => 'required|max:30|unique:inventory_purchases,bill',
-            'date_bill' => 'required|date',
+            'bill' => 'required|max:30',
+            'date_bill' => 'required|date|before:tomorrow',
             'observations' => 'required|max:500',
 
             'details' => 'array',
@@ -67,12 +68,20 @@ class InventoryPurchaseController extends Controller
             'details.*.inventory_product_id' => 'required|exists:inventory_products,id',
             'details.*.quantity' => 'required|numeric|min:1|max:1000000',
             'details.*.price_unit' => 'required|numeric|min:1|max:100000000',
-        ], [], [
+        ], [
+            'date_bill.before' => 'La fecha de la factura debe ser menor o igual a la de hoy'
+        ], [
             'inventory_provider_id' => 'Proveedor',
             'bill' => 'Factura',
             'date_bill' => 'Fecha factura',
             'observations' => 'Observaciónes',
         ]);
+
+        $existsPurchaseWithBillAndConfirmed = InventoryPurchase::where('bill', $data['bill'])->where('status', 'Confirmado')->exists();
+
+        if ($existsPurchaseWithBillAndConfirmed) {
+            return response()->json(['errors' => ['message' => ['Ya existe una compra confirmada con el número de factura']]], 422);
+        }
 
         $total = 0;
 
@@ -95,9 +104,9 @@ class InventoryPurchaseController extends Controller
             }
 
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['errors' => ['message' => ['La compra no se pudo registrar debido a un error en el servidor']]], 422);
+            return response()->json(['errors' => ['message' => ['La compra no se pudo registrar debido a un error en el servidor: ' . $e->getMessage()]]], 422);
         }
     }
 
@@ -111,5 +120,40 @@ class InventoryPurchaseController extends Controller
     {
         return InventoryPurchase::with(['provider', 'purchaseDetails.product', 'purchaseDetails.purchaseReturnDetails.inventoryPurchaseReturn'])
                                 ->where('id', $inventoryPurchase)->firstOrFail();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Sale  $sale
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(InventoryPurchase $inventoryPurchase)
+    {
+        if ($inventoryPurchase->status == 'Anulado') {
+            return response()->json(['errors' => ['not_products' => ["La compra ya se encuentra anulada"]]], 422);
+        }
+
+        foreach ($inventoryPurchase->purchaseDetails as $purchaseDetail) {
+            $productDB = InventoryProduct::findOrFail($purchaseDetail['inventory_product_id']);
+            if ($purchaseDetail['quantity'] > $productDB->stock) {
+                return response()->json(['errors' => ['not_products' => ["La cantidad del producto \"$productDB->name\" supera la cantidad disponible en stock($productDB->stock)"]]], 422);
+            }            
+        }
+
+        try {
+            DB::beginTransaction();
+            foreach ($inventoryPurchase->purchaseDetails as $purchaseDetail) {
+                $productDB = InventoryProduct::findOrFail($purchaseDetail['inventory_product_id']);
+                $productDB->stock = $productDB->stock - $purchaseDetail->quantity;
+                $productDB->save();
+            }
+
+            $inventoryPurchase->update(['status' => 'Anulado']);
+           DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['errors' => ['not_products' => ['Ocurrió un error al intentar anular: ' . $e->getMessage()]]], 422);
+        }
     }
 }

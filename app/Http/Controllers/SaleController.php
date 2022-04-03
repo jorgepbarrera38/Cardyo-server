@@ -100,9 +100,9 @@ class SaleController extends Controller
                 $sale->saleDetails()->createMany($products);
 
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['errors' => ['not_products' => ['Ocurrió un error al intentar guardar']]], 422);
+            return response()->json(['errors' => ['not_products' => ['Ocurrió un error al intentar guardar: ' . $e->getMessage()]]], 422);
         }
     }
 
@@ -125,6 +125,10 @@ class SaleController extends Controller
      */
     public function destroy(Sale $sale)
     {
+        if ($sale->status == 'Anulado') {
+            return response()->json(['errors' => ['not_products' => ["La venta ya se encuentra anulada"]]], 422);
+        }
+
         try {
             DB::beginTransaction();
             foreach ($sale->saleDetails as $saleDetail) {
@@ -135,9 +139,9 @@ class SaleController extends Controller
 
             $sale->update(['status' => 'Anulado']);
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['errors' => ['not_products' => ['Ocurrió un error al intentar eliminar']]], 422);
+            return response()->json(['errors' => ['not_products' => ['Ocurrió un error al intentar anular: ' . $e->getMessage()]]], 422);
         }
     }
 }
