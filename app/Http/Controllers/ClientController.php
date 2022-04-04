@@ -64,6 +64,8 @@ class ClientController extends Controller
 
         }
 
+        $data['user_create_id'] = auth()->user()->id;
+
         Client::create($data);
     }
 

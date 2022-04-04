@@ -43,7 +43,7 @@ class AssistanceController extends Controller
                               ->where('date_finish', '>=', $now);
                         }])->where('identification', $request->identification)
                        ->first(['id', 'identification', 'full_names', 'photo']);
-        
+
         return [
             'clientWithInfoMemberships' => $clientWithInfoMemberships,
             'clientHasActiveMemberships' => $clientHasActiveMemberships
@@ -71,7 +71,7 @@ class AssistanceController extends Controller
         }
 
         //Verificar que no haya marcado la asistencia con anterioridad
-        $clientMembershipHasAssistanceToday = ClientMembershipAssistance::where('client_membership_id', $data['client_membership_id'])  
+        $clientMembershipHasAssistanceToday = ClientMembershipAssistance::where('client_membership_id', $data['client_membership_id'])
                                                                 ->where('date', $dateToday)
                                                                 ->first();
 
@@ -83,6 +83,8 @@ class AssistanceController extends Controller
         $clientMembership = ClientMembership::where('id', $data['client_membership_id'])->firstOrFail();
 
         $data['turn_id'] = $clientMembership->turn_id;
+
+        $data['user_create_id'] = auth()->user()->id;
 
         ClientMembershipAssistance::create($data);
     }

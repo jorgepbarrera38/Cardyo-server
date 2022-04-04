@@ -13,7 +13,7 @@ class PermissionsUser extends Seeder
      * @return void
      */
     public function run()
-    {
+    {/*
         //Tipos de membresías
         Permission::create([
             'name' => 'membership_types.index',
@@ -190,7 +190,7 @@ class PermissionsUser extends Seeder
         Permission::create([
             'name' => 'inventory_purchase_returns.show',
             'description' => 'Ver información de devoluciones de compras de inventario'
-        ]);*/
+        ]);
 
         //Inventarios - Ajustes de inventarios
         Permission::create([
@@ -222,7 +222,13 @@ class PermissionsUser extends Seeder
         Permission::create([
             'name' => 'sales.delete',
             'description' => 'Anular ventas'
-        ]);
+        ]);*/
+
+        //Reportes
+        Permission::create([
+            'name' => 'reports.show',
+            'description' => 'Consultar reportes'
+        ]);/*
 
         //Usuarios del sistema
         Permission::create([
@@ -250,6 +256,6 @@ class PermissionsUser extends Seeder
         Permission::create([
             'name' => 'company.index',
             'description' => 'Actualizar datos de empresa'
-        ]);
+        ]);*/
     }
 }

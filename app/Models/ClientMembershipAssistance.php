@@ -13,6 +13,7 @@ class ClientMembershipAssistance extends Model
         'client_membership_id',
         'turn_id',
         'date',
+        'user_create_id'
     ];
 
     public function clientMembership () {

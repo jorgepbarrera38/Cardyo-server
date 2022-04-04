@@ -9,6 +9,11 @@ use Carbon\Carbon;
 
 class SaleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('hasPermission:reports.show');
+    }
+
     public function getSales (Request $request) {
         $request->validate([
             'dateInitial' => 'required|date',
@@ -39,7 +44,7 @@ class SaleController extends Controller
                 'sales' => $sales,
                 'total' => $total,
             ];
-            
+
         }
 
     }

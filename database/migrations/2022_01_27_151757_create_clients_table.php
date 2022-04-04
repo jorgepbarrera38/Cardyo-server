@@ -25,6 +25,8 @@ class CreateClientsTable extends Migration
             $table->string('email')->nullable();
             $table->string('phonenumber')->nullable();
             $table->string('photo')->nullable();
+            $table->unsignedBigInteger('user_create_id');
+            $table->foreign('user_create_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

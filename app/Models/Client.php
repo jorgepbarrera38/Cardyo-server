@@ -20,6 +20,7 @@ class Client extends Model
         'email',
         'phonenumber',
         'photo',
+        'user_create_id'
     ];
 
     public function memberships () {

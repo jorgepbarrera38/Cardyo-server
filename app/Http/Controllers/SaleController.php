@@ -89,7 +89,7 @@ class SaleController extends Controller
         try {
             DB::beginTransaction();
                 //Guardar encabezado detalle de compra
-                $sale = Sale::create(['client_id' => $request->client_id, 'total' => $total]);
+                $sale = Sale::create(['client_id' => $request->client_id, 'total' => $total, 'user_create_id' =>  auth()->user()->id]);
                 //Disminuir cantidades del stock del producto
                 foreach ($products as $product) {
                     $productDB = InventoryProduct::find($product['product_id']);
@@ -137,7 +137,7 @@ class SaleController extends Controller
                 $productDB->save();
             }
 
-            $sale->update(['status' => 'Anulado']);
+            $sale->update(['status' => 'Anulado', 'user_delete_id' => auth()->user()->id]);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

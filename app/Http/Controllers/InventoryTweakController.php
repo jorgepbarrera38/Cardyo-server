@@ -77,6 +77,8 @@ class InventoryTweakController extends Controller
             }
         }
 
+        $data['user_create_id'] = auth()->user()->id;
+
         try {
             DB::beginTransaction();
 

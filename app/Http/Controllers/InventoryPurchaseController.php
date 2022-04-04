@@ -92,6 +92,8 @@ class InventoryPurchaseController extends Controller
 
         $data['total'] = $total;
 
+        $data['user_create_id'] = auth()->user()->id;
+
         try {
             DB::beginTransaction();
 
@@ -138,7 +140,7 @@ class InventoryPurchaseController extends Controller
             $productDB = InventoryProduct::findOrFail($purchaseDetail['inventory_product_id']);
             if ($purchaseDetail['quantity'] > $productDB->stock) {
                 return response()->json(['errors' => ['not_products' => ["La cantidad del producto \"$productDB->name\" supera la cantidad disponible en stock($productDB->stock)"]]], 422);
-            }            
+            }
         }
 
         try {
@@ -149,7 +151,7 @@ class InventoryPurchaseController extends Controller
                 $productDB->save();
             }
 
-            $inventoryPurchase->update(['status' => 'Anulado']);
+            $inventoryPurchase->update(['status' => 'Anulado', 'user_delete_id' => auth()->user()->id]);
            DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

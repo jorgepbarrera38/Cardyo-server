@@ -13,6 +13,8 @@ class Sale extends Model
         'client_id',
         'total',
         'status',
+        'user_create_id',
+        'user_delete_id',
     ];
 
     public function saleDetails () {

@@ -20,6 +20,8 @@ class CreateClientMembershipAssistancesTable extends Migration
             $table->unsignedBigInteger('turn_id');
             $table->foreign('turn_id')->references('id')->on('turns');
             $table->date('date');
+            $table->unsignedBigInteger('user_create_id');
+            $table->foreign('user_create_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -23,6 +23,10 @@ class CreateInventoryPurchasesTable extends Migration
             $table->text('observations');
             $table->double('total');
             $table->enum('status', ['Confirmado', 'Anulado'])->default('Confirmado');
+            $table->unsignedBigInteger('user_create_id');
+            $table->foreign('user_create_id')->references('id')->on('users');
+            $table->unsignedBigInteger('user_delete_id')->nullable();
+            $table->foreign('user_delete_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

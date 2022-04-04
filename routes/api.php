@@ -114,5 +114,8 @@ Route::middleware('auth')->group(function () {
 
     //Reportes - Asistencias
     Route::get('reports/get-assistances', 'Reports\AssistanceController@getAssistances');
+    Route::get('reports/get-purchases', 'Reports\PurchaseController@getPurchases');
+    Route::get('reports/get-inventory-tweaks', 'Reports\InventoryTweakController@getInventoryTweaks');
     Route::get('reports/get-sales', 'Reports\SaleController@getSales');
+    Route::get('reports/get-stock-products', 'Reports\StockProductController@getStockProducts');
 });

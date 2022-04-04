@@ -12,6 +12,7 @@ class InventoryTweak extends Model
     protected $fillable = [
         'type',
         'observations',
+        'user_create_id'
     ];
 
     public function tweakDetails () {

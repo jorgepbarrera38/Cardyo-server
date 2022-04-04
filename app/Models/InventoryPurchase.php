@@ -17,6 +17,8 @@ class InventoryPurchase extends Model
         'observations',
         'status',
         'total',
+        'user_create_id',
+        'user_delete_id',
     ];
 
     public function purchaseDetails () {

@@ -17,6 +17,8 @@ class CreateInventoryTweaksTable extends Migration
             $table->id();
             $table->enum('type', ['Entrada', 'Salida']);
             $table->text('observations');
+            $table->unsignedBigInteger('user_create_id');
+            $table->foreign('user_create_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
