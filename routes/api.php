@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Company;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('config', function () {
-
+    $data = Company::exists() ? Company::first()->photo : null;
     return [
         'APP_URL' => env('APP_URL'),
+        'LOGO_COMPANY' => $data
     ];
 });
 
@@ -114,8 +116,17 @@ Route::middleware('auth')->group(function () {
 
     //Reportes - Asistencias
     Route::get('reports/get-assistances', 'Reports\AssistanceController@getAssistances');
-    Route::get('reports/get-purchases', 'Reports\PurchaseController@getPurchases');
-    Route::get('reports/get-inventory-tweaks', 'Reports\InventoryTweakController@getInventoryTweaks');
-    Route::get('reports/get-sales', 'Reports\SaleController@getSales');
+    Route::get('reports/get-assistances-in-excel', 'Reports\AssistanceController@getAssistancesInExcel');
+
     Route::get('reports/get-stock-products', 'Reports\StockProductController@getStockProducts');
+    Route::get('reports/get-stock-products-in-excel', 'Reports\StockProductController@getStockProductsInExcel');
+
+    Route::get('reports/get-purchases', 'Reports\PurchaseController@getPurchases');
+    Route::get('reports/get-purchases-in-excel', 'Reports\PurchaseController@getPurchasesInExcel');
+
+    Route::get('reports/get-inventory-tweaks', 'Reports\InventoryTweakController@getInventoryTweaks');
+    Route::get('reports/get-inventory-tweaks-in-excel', 'Reports\InventoryTweakController@getInventoryTweaksInExcel');
+
+    Route::get('reports/get-sales', 'Reports\SaleController@getSales');
+    Route::get('reports/get-sales-in-excel', 'Reports\SaleController@getSalesInExcel');
 });

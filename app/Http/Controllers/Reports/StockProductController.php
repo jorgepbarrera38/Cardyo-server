@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Reports;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\InventoryProduct;
+use App\Exports\StockProductsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StockProductController extends Controller
 {
@@ -32,5 +34,15 @@ class StockProductController extends Controller
             'products' => $products,
             'total' => $total,
         ];
+    }
+
+    public function getStockProductsInExcel (Request $request) {
+        $request->validate([
+            'type' => 'required',
+        ], [], [
+            'type' => 'Tipo de consulta',
+        ]);
+
+        return Excel::download(new StockProductsExport($request->type), 'getStockProducts.xlsx');
     }
 }

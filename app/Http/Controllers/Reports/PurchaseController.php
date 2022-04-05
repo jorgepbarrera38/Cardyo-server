@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\InventoryPurchase;
 use Carbon\Carbon;
+use App\Exports\PurchasesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PurchaseController extends Controller
 {
@@ -29,7 +31,7 @@ class PurchaseController extends Controller
         $dateFinal = Carbon::createFromDate($request->dateFinal)->addHours(23)->addMinutes(59)->addSeconds(59)->toDateTimeString();
 
         if ($request->boolean('status')) {
-            $purchases = InventoryPurchase::with(['provider'])->whereBetween('created_at', [$request->dateInitial, $dateFinal])
+            $purchases = InventoryPurchase::with(['provider', 'purchaseDetails.product'])->whereBetween('created_at', [$request->dateInitial, $dateFinal])
                                             ->orderBy('created_at', 'asc')->paginate(8);
             $total = InventoryPurchase::whereBetween('created_at', [$request->dateInitial, $dateFinal])->sum('total');
             return [
@@ -37,7 +39,7 @@ class PurchaseController extends Controller
                 'total' => $total,
             ];
         } else {
-            $purchases = InventoryPurchase::with(['provider'])->whereBetween('created_at', [$request->dateInitial, $dateFinal])->where('status', 'Confirmado')
+            $purchases = InventoryPurchase::with(['provider', 'purchaseDetails.product'])->whereBetween('created_at', [$request->dateInitial, $dateFinal])->where('status', 'Confirmado')
                         ->orderBy('created_at', 'asc')->paginate(8);
             $total = InventoryPurchase::whereBetween('created_at', [$request->dateInitial, $dateFinal])->where('status', 'Confirmado')->sum('total');
             return [
@@ -47,5 +49,22 @@ class PurchaseController extends Controller
 
         }
 
+    }
+
+    public function getPurchasesInExcel (Request $request) {
+        $request->validate([
+            'dateInitial' => 'required|date',
+            'dateFinal' => 'required|date|after_or_equal:dateInitial',
+            'type' => 'required',
+        ], [
+            'dateFinal.after_or_equal' => 'La fecha final debe ser superior a la fecha inicial'
+        ], [
+            'dateInitial' => 'Fecha inicial',
+            'dateFinal' => 'Fecha final'
+        ]);
+
+        $dateFinal = Carbon::createFromDate($request->dateFinal)->addHours(23)->addMinutes(59)->addSeconds(59)->toDateTimeString();
+
+        return Excel::download(new PurchasesExport($request->dateInitial, $dateFinal, $request->type, $request->status), 'purchases.xlsx');
     }
 }

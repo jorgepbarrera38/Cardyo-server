@@ -2,6 +2,7 @@
 /public/hot
 /public/clients
 /public/inventories
+/public/company
 /public/storage
 /storage/*.key
 /vendor

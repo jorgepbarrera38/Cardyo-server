@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
@@ -24,6 +25,17 @@ class CompanyController extends Controller
         ], [], [
             'name' => 'Nombre',
         ]);
+
+        if ($request->hasFile('photo')) {
+            $data['photo'] = Storage::putFile('company', $request->file('photo'));
+
+            if (Company::exists()) {
+                if (Storage::exists(Company::first()->photo))  {
+                    Storage::delete(Company::first()->photo);
+                }
+            }
+        }
+
 
         Company::updateOrCreate([], $data);
     }
