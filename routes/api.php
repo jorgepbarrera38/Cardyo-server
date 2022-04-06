@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Company;
+use App\Models\Config;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,12 @@ use App\Models\Company;
 
 Route::get('config', function () {
     $data = Company::exists() ? Company::first()->photo : null;
+    $config = Config::first();
+
     return [
         'APP_URL' => env('APP_URL'),
-        'LOGO_COMPANY' => $data
+        'LOGO_COMPANY' => $data,
+        'CONFIG' => $config
     ];
 });
 
