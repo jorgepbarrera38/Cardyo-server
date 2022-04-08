@@ -12,9 +12,9 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {/*
+    {
         $user = \App\Models\User::create([
-            'names' => 'Jorge Alexis Paz',
+            'names' => 'Administrador',
             'username' => 'admin',
             'password' => bcrypt(123)
         ]);
@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
 
         $permissions = \App\Models\Permission::get(['id']);
 
-        $user->permissions()->attach($permissions);*/
+        $user->permissions()->attach($permissions);
 
         \App\Models\Config::create([
             'company_name' => 'Digital App',

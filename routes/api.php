@@ -133,4 +133,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('reports/get-sales', 'Reports\SaleController@getSales');
     Route::get('reports/get-sales-in-excel', 'Reports\SaleController@getSalesInExcel');
+    
+    Route::get('reports/get-memberships-payed', 'Reports\MembershipPayedController@getMembershipsPayed');
+    Route::get('reports/get-memberships-payed-in-excel', 'Reports\MembershipPayedController@getMembershipsPayedInExcel');
 });
