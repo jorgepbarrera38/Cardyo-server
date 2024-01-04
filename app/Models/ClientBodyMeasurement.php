@@ -10,17 +10,13 @@ class ClientBodyMeasurement extends Model
     use HasFactory;
 
     protected $fillable = [
+        'client_id',
         'date',
-        'height',
-        'weight',
-        'biceps',
-        'forearms',
-        'shoulders',
-        'chest',
-        'waist_width',
-        'width_at_navel_level',
-        'buttocks_or_hip',
-        'thigh',
-        'calves',
+        'body_measurement_id',
+        'value',
     ];
+
+    public function bodyMeasurement () {
+        return $this->belongsTo('App\Models\BodyMeasurement');
+    }
 }

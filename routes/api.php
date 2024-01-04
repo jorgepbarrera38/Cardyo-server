@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('client-memberships/{client_membership}/destroy', 'ClientMembershipController@destroy');
 
     //Medidas corporales del cliente
+    Route::get('client-body-measurements/get-data-to-register-body-measurement', 'ClientBodyMeasurementController@getDataToRegisterBodyMeasurement');
     Route::post('client-body-measurements/{client}', 'ClientBodyMeasurementController@store');
     Route::get('client-body-measurements/{client_body_measurement}/edit', 'ClientBodyMeasurementController@edit');
     Route::put('client-body-measurements/{client_body_measurement}/update', 'ClientBodyMeasurementController@update');
@@ -136,4 +137,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('reports/get-memberships-payed', 'Reports\MembershipPayedController@getMembershipsPayed');
     Route::get('reports/get-memberships-payed-in-excel', 'Reports\MembershipPayedController@getMembershipsPayedInExcel');
+
+    //Medidas corporales
+    Route::get('body-measurements/{bodyMeasurement}/edit', 'BodyMeasurementController@edit');
+    Route::apiResource('body-measurements', 'BodyMeasurementController');
 });

@@ -82,7 +82,8 @@ class ClientController extends Controller
                      ->with(['memberships' => function ($query) {
                         $query->orderBy('date_start', 'desc')->get();
                       }])
-                     ->with(['bodyMeasurements' => function ($query) {
+                     ->with('clientBodyMeasurements.bodyMeasurement')
+                     ->with(['clientBodyMeasurements' => function ($query) {
                         $query->orderBy('date', 'asc')->get();
                       }])
                       ->with('sales.saleDetails:id,sale_id,product_name,quantity,price_unit,price_total')
